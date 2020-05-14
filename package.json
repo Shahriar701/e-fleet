@@ -1,25 +1,26 @@
 {
-  "name": "serverless-nodejs-starter",
+  "name": "truckload-admin-backend",
   "version": "1.1.0",
-  "description": "A Node.js starter for the Serverless Framework with async/await and unit test support",
+  "description": "truckload backend with the Serverless Framework with async/await and unit test support",
   "main": "handler.js",
   "scripts": {
     "test": "serverless-bundle test"
   },
-  "author": "",
-  "license": "MIT",
+  "author": "S.M. Shahriar Rezwan",
+  "license": "ERA",
   "repository": {
     "type": "git",
     "url": "https://github.com/AnomalyInnovations/serverless-nodejs-starter.git"
   },
   "devDependencies": {
-    "aws-sdk": "^2.536.0",
-    "serverless-bundle": "^1.2.2",
-    "serverless-dotenv-plugin": "^2.1.1",
-    "serverless-offline": "^5.3.3"
+    "aws-sdk": "2.536.0",
+    "serverless-bundle": "1.2.2",
+    "serverless-dotenv-plugin": "2.1.1",
+    "serverless-offline": "5.3.3"
   },
   "dependencies": {
-    "stripe": "^7.9.1",
-    "uuid": "^3.3.3"
+    "abbreviate": "0.0.3",
+    "moment": "^2.25.3",
+    "uuid": "3.3.3"
   }
 }

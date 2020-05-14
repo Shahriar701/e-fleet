@@ -1,32 +1,24 @@
-service: notes-app-2-api
+service: truckload-admin-backend
 
-# Create an optimized package for our functions
 package:
   individually: true
 
 plugins:
-  - serverless-bundle # Package our functions with Webpack
+  - serverless-bundle
   - serverless-offline
-  - serverless-dotenv-plugin # Load .env as environment variables
 
 custom:
-  # Our stage is based on what is passed in when running serverless
-  # commands. Or fallsback to what we have set in the provider section.
   stage: ${opt:stage, self:provider.stage}
-  # Set the table name here so we can use it while testing locally
-  tableName: ${self:custom.stage}-notes
+  tableName: ${self:custom.stage}-truckload
 
 provider:
   name: aws
-  runtime: nodejs10.x
+  runtime: nodejs12.x
   stage: dev
-  region: us-east-1
+  region: ap-southeast-1
 
-  # These environment variables are made available to our functions
-  # under process.env.
   environment:
     tableName: ${self:custom.tableName}
-    stripeSecretKey: ${env:STRIPE_SECRET_KEY}
 
   iamRoleStatements:
     - Effect: Allow
@@ -38,95 +30,83 @@ provider:
         - dynamodb:PutItem
         - dynamodb:UpdateItem
         - dynamodb:DeleteItem
-      # Restrict our IAM role permissions to
-      # the specific table for the stage
+
       Resource:
-        - "Fn::GetAtt": [ NotesTable, Arn ]
+        - "Fn::GetAtt": [ TruckloadTable, Arn ]
 
 functions:
-  # Defines an HTTP API endpoint that calls the main function in create.js
-  # - path: url path is /notes
-  # - method: POST request
-  # - cors: enabled CORS (Cross-Origin Resource Sharing) for browser cross
-  #     domain api call
-  # - authorizer: authenticate using the AWS IAM role
-  create:
-    handler: create.main
+
+  # function for adding an order for customer
+  add-order:
+    handler: api/add-order.main
+    description: POST /order
     events:
       - http:
-          path: notes
+          path: order
           method: post
           cors: true
-          authorizer: aws_iam
 
-  get:
-    # Defines an HTTP API endpoint that calls the main function in get.js
-    # - path: url path is /notes/{id}
-    # - method: GET request
-    handler: get.main
+  # function for adding customer
+  add-customer:
+    handler: api/add-customer.main
+    description: POST /customer
     events:
       - http:
-          path: notes/{id}
+          path: customer
+          method: post
+          cors: true
+
+  # function for adding vendor
+  add-vendor:
+    handler: api/add-vendor.main
+    description: POST /vendor
+    events:
+      - http:
+          path: vendor
+          method: post
+          cors: true
+
+  # function for adding trucks
+  add-truck:
+    handler: api/add-truck.main
+    description: POST /truck
+    events:
+      - http:
+          path: truck
+          method: post
+          cors: true
+
+  # function for adding lease of trucks to an order
+  add-lease:
+    handler: api/add-lease.main
+    description: POST /lease
+    events:
+      - http:
+          path: lease
+          method: post
+          cors: true
+
+  # function for all
+  get-all:
+    handler: api/get-all.main
+    description: GET /all
+    events:
+      - http:
+          path: all
           method: get
           cors: true
-          authorizer: aws_iam
 
-  list:
-    # Defines an HTTP API endpoint that calls the main function in list.js
-    # - path: url path is /notes
-    # - method: GET request
-    handler: list.main
+  update-status:
+    handler: api/update-status.main
+    description: GET /update/status
     events:
       - http:
-          path: notes
-          method: get
-          cors: true
-          authorizer: aws_iam
-
-  update:
-    # Defines an HTTP API endpoint that calls the main function in update.js
-    # - path: url path is /notes/{id}
-    # - method: PUT request
-    handler: update.main
-    events:
-      - http:
-          path: notes/{id}
+          path: update/status
           method: put
           cors: true
-          authorizer: aws_iam
 
-  delete:
-    # Defines an HTTP API endpoint that calls the main function in delete.js
-    # - path: url path is /notes/{id}
-    # - method: DELETE request
-    handler: delete.main
-    events:
-      - http:
-          path: notes/{id}
-          method: delete
-          cors: true
-          authorizer: aws_iam
-
-  billing:
-    # Defines an HTTP API endpoint that calls the main function in billing.js
-    # - path: url path is /billing
-    # - method: POST request
-    handler: billing.main
-    events:
-      - http:
-          path: billing
-          method: post
-          cors: true
-          authorizer: aws_iam
-
-# Create our resources with separate CloudFormation templates
 resources:
   # API Gateway Errors
   - ${file(resources/api-gateway-errors.yml)}
   # DynamoDB
   - ${file(resources/dynamodb-table.yml)}
-  # S3
-  - ${file(resources/s3-bucket.yml)}
-  # Cognito
-  - ${file(resources/cognito-user-pool.yml)}
-  - ${file(resources/cognito-identity-pool.yml)}
