@@ -106,15 +106,14 @@ export async function main(event, context) {
       Limit: limit,
       ScanIndexForward: true
     };
-  }
-
-  try {
-    const result = await dynamoDbLib.call("query", params);
-    return success({
-      data: result.Items,
-      isExecuted: true
-    });
-  } catch (e) {
-    return failure({ isExecuted: false, error : e });
+    try {
+      const result = await dynamoDbLib.call("query", params);
+      return success({
+        data: result.Items,
+        isExecuted: true
+      });
+    } catch (e) {
+      return failure({ isExecuted: false, error : e });
+    }
   }
 }
