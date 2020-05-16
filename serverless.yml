@@ -102,13 +102,24 @@ functions:
           method: get
           cors: true
 
-  update-status:
-    handler: api/update-status.main
-    description: GET /update/status
+  # function for getting by status
+  get-status:
+    handler: api/get-status.main
+    description: GET /status
     events:
       - http:
-          path: update/status
-          method: put
+          path: /status
+          method: get
+          cors: true
+
+  # function for updating status
+  update-status:
+    handler: api/update-status.main
+    description: PATCH /status
+    events:
+      - http:
+          path: status
+          method: patch
           cors: true
 
 resources:

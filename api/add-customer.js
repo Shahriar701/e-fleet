@@ -7,20 +7,24 @@ export async function main(event, context) {
 
     const data = JSON.parse(event.body);
 
-    data.orientation = data.orientation.toLowerCase();
-    data.customer_name = data.customer_name;
-    data.customer_phn = data.customer_phn;
+    data.orientation = data.orientation;
+    data.name = data.name;
+    data.email = data.email;
+    data.type = data.type;
+    data.phone = data.phone;
     data.created_at = Date.now();
-    data.customer_id = abbreviate(data.customer_name, {length: 4}).toLowerCase() + '_' + data.customer_phn + '_' + data.orientation;
+    data.customer_id = data.phone + '_' +abbreviate(data.name, {length: 4}).toLowerCase() + '_' +  data.orientation.toLowerCase();
     data.pk = data.customer_id;
-    data.sk = data.orientation;
+    data.sk = data.type;
 
   const params = {
     TableName: process.env.tableName,
     Item: data,
-    ConditionExpression: "customer_id <> :ci ",
+    ConditionExpression: "customer_id <> :ci OR phone <> :phone OR email <> :email",
     ExpressionAttributeValues:{
-        ":ci": data.customer_id
+        ":ci": data.customer_id,
+        ":phone": data.phone,
+        ":email": data.email
     }
   };
   try {

@@ -7,13 +7,13 @@ export async function main(event, context) {
 
   const data = JSON.parse(event.body);
 
-    data.orientation = data.orientation.toLowerCase();
-    data.customer_name = data.customer_name;
-    data.customer_id = data.customer_id;
-    data.created_at = Date.now();
-    data.order_id = abbreviate(data.customer_name, {length: 4}).toLowerCase() +'_'+data.created_at +'_'+ data.orientation +'_';
-    data.pk = data.order_id;
-    data.sk = data.orientation;
+  data.orientation = data.orientation;
+  data.name = data.name;
+  data.customer_id = data.customer_id;
+  data.created_at = Date.now();
+  data.order_id = data.created_at + '_' + abbreviate(data.name, { length: 4 }).toLowerCase() + '_' + data.orientation.toLowerCase();
+  data.pk = data.order_id;
+  data.sk = data.customer_id;
 
   const params = {
     TableName: process.env.tableName,
@@ -27,6 +27,6 @@ export async function main(event, context) {
       isExecuted: true
     });
   } catch (e) {
-    return failure({ isExecuted: false });
+    return failure({ isExecuted: false, error: e });
   }
 }

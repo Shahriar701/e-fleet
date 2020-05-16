@@ -2,118 +2,166 @@ import * as dynamoDbLib from "../libs/dynamodb-lib";
 import { success, failure } from "../libs/response-lib";
 
 export async function main(event, context) {
+
   let query = event.queryStringParameters;
-  let limit = query && query.limit ? parseInt(query.limit) : 50;
-  let sk = query && query.sk ? query.sk : 'order';
-  let pk = query && query.pk ? query.pk : "";
-  let status = query && query.status ? query.status : "";
+  let limit = query && query.limit ? parseInt(query.limit) : 100;
+  let orientation = query && query.orientation ? query.orientation : 'order';
+  let name = query && query.name ? query.name : "";
+  let phone = query && query.phone ? query.phone : "";
+  let email = query && query.email ? query.email : "";
 
-  if (!pk && !status) {
-    const params = {
-      TableName: process.env.tableName,
-      IndexName: "reverse-index",
-      KeyConditionExpression: "#sk = :sk",
-      ExpressionAttributeNames: {
-        '#sk': 'sk'
-      },
-      ExpressionAttributeValues: {
-        ":sk": sk
-      },
-      Limit: limit,
-      ScanIndexForward: true
-    };
 
-    try {
-      const result = await dynamoDbLib.call("query", params);
-      return success({
-        data: result.Items,
-        isExecuted: true
-      });
-    } catch (e) {
-      return failure({ isExecuted: false, error: e });
+  var params;
+  try {
+    if (!name && !phone && !email) {
+      params = {
+        TableName: process.env.tableName,
+        IndexName: "orientation-index",
+        KeyConditionExpression: "#orientation = :orientation",
+        ExpressionAttributeNames: {
+          '#orientation': 'orientation'
+        },
+        ExpressionAttributeValues: {
+          ":orientation": orientation
+        },
+        Limit: limit,
+        ScanIndexForward: true
+      };
+    } else if (!name && !email) {
+      params = {
+        TableName: process.env.tableName,
+        IndexName: "orientation-index",
+        KeyConditionExpression: "#orientation = :orientation",
+        ExpressionAttributeNames: {
+          '#orientation': 'orientation',
+          "#phone": 'phone',
+        },
+        ExpressionAttributeValues: {
+          ":orientation": orientation,
+          ":phone": phone
+        },
+        FilterExpression: "begins_with(#phone, :phone)",
+        Limit: limit,
+        ScanIndexForward: true
+      };
+    } else if (!name && !phone) {
+      params = {
+        TableName: process.env.tableName,
+        IndexName: "orientation-index",
+        KeyConditionExpression: "#orientation = :orientation",
+        ExpressionAttributeNames: {
+          '#orientation': 'orientation',
+          "#email": 'email',
+        },
+        ExpressionAttributeValues: {
+          ":orientation": orientation,
+          ":email": email
+        },
+        FilterExpression: "begins_with(#email, :email)",
+        Limit: limit,
+        ScanIndexForward: true
+      };
+    } else if (!phone && !email) {
+      params = {
+        TableName: process.env.tableName,
+        IndexName: "orientation-index",
+        KeyConditionExpression: "#orientation = :orientation and begins_with(#name, :name)",
+        ExpressionAttributeNames: {
+          '#orientation': 'orientation',
+          "#name": 'name',
+        },
+        ExpressionAttributeValues: {
+          ":orientation": orientation,
+          ":name": name
+        },
+        Limit: limit,
+        ScanIndexForward: true
+      };
+    } else if (!name) {
+      params = {
+        TableName: process.env.tableName,
+        IndexName: "orientation-index",
+        KeyConditionExpression: "#orientation = :orientation",
+        ExpressionAttributeNames: {
+          '#orientation': 'orientation',
+          '#phone': 'phone',
+          '#email': 'email',
+        },
+        ExpressionAttributeValues: {
+          ":orientation": orientation,
+          ':phone': phone,
+          ':email': email
+        },
+        FilterExpression: "begins_with(#phone, :phone) AND begins_with(#email, :email)",
+        Limit: limit,
+        ScanIndexForward: true
+      };
+    } else if (!phone) {
+      params = {
+        TableName: process.env.tableName,
+        IndexName: "orientation-index",
+        KeyConditionExpression: "#orientation = :orientation and begins_with(#name, :name)",
+        ExpressionAttributeNames: {
+          '#orientation': 'orientation',
+          '#name': 'name',
+          '#email': 'email',
+        },
+        ExpressionAttributeValues: {
+          ":orientation": orientation,
+          ':name': name,
+          ':email': email
+        },
+        FilterExpression: "begins_with(#email, :email)",
+        Limit: limit,
+        ScanIndexForward: true
+      };
+    } else if (!email) {
+      params = {
+        TableName: process.env.tableName,
+        IndexName: "orientation-index",
+        KeyConditionExpression: "#orientation = :orientation and begins_with(#name, :name)",
+        ExpressionAttributeNames: {
+          '#orientation': 'orientation',
+          '#name': 'name',
+          '#phone': 'phone'
+        },
+        ExpressionAttributeValues: {
+          ":orientation": orientation,
+          ':name': name,
+          ':phone': phone
+        },
+        FilterExpression: "begins_with(#phone, :phone)",
+        Limit: limit,
+        ScanIndexForward: true
+      };
+    } else {
+      params = {
+        TableName: process.env.tableName,
+        IndexName: "orientation-index",
+        KeyConditionExpression: "#orientation = :orientation and begins_with(#name, :name)",
+        ExpressionAttributeNames: {
+          '#orientation': 'orientation',
+          '#name': 'name',
+          '#phone': 'phone',
+          '#email': 'email',
+        },
+        ExpressionAttributeValues: {
+          ":orientation": orientation,
+          ':name': name,
+          ':phone': phone,
+          ':email': email
+        },
+        FilterExpression: "begins_with(#phone, :phone) AND begins_with(#email, :email)",
+        Limit: limit,
+        ScanIndexForward: true
+      };
     }
-  } else if (!pk) {
-    const params = {
-      TableName: process.env.tableName,
-      IndexName: "reverse-index",
-      KeyConditionExpression: "#sk = :sk",
-      ExpressionAttributeNames: {
-        '#sk': 'sk',
-        "#status": 'status',
-
-      },
-      ExpressionAttributeValues: {
-        ":sk": sk,
-        ":status": status
-      },
-      FilterExpression: "begins_with(#status, :status)",
-      Limit: limit,
-      ScanIndexForward: true
-    };
-
-    try {
-      const result = await dynamoDbLib.call("query", params);
-      return success({
-        data: result.Items,
-        isExecuted: true
-      });
-    } catch (e) {
-      return failure({ isExecuted: false, error: e });
-    }
-  } else if (!status) {
-    const params = {
-      TableName: process.env.tableName,
-      IndexName: "reverse-index",
-      KeyConditionExpression: "#sk = :sk and begins_with(#pk, :pk)",
-      ExpressionAttributeNames: {
-        '#sk': 'sk',
-        "#pk": 'pk',
-
-      },
-      ExpressionAttributeValues: {
-        ":sk": sk,
-        ":pk": pk
-      },
-      Limit: limit,
-      ScanIndexForward: true
-    };
-
-    try {
-      const result = await dynamoDbLib.call("query", params);
-      return success({
-        data: result.Items,
-        isExecuted: true
-      });
-    } catch (e) {
-      return failure({ isExecuted: false, error: e });
-    }
-  } else {
-    const params = {
-      TableName: process.env.tableName,
-      IndexName: "reverse-index",
-      KeyConditionExpression: "#sk = :sk and begins_with(#pk, :pk)",
-      ExpressionAttributeNames: {
-        '#sk': 'sk',
-        '#pk': 'pk',
-        '#status': 'status'
-      },
-      ExpressionAttributeValues: {
-        ":sk": sk,
-        ':pk': pk,
-        ':status': status
-      },
-      FilterExpression: "begins_with(#status, :status)",
-      Limit: limit,
-      ScanIndexForward: true
-    };
-    try {
-      const result = await dynamoDbLib.call("query", params);
-      return success({
-        data: result.Items,
-        isExecuted: true
-      });
-    } catch (e) {
-      return failure({ isExecuted: false, error : e });
-    }
+    const result = await dynamoDbLib.call("query", params);
+    return success({
+      data: result.Items,
+      isExecuted: true
+    });
+  } catch (e) {
+    return failure({ isExecuted: false, error: e });
   }
 }

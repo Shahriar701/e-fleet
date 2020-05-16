@@ -6,20 +6,24 @@ const abbreviate = require('abbreviate');
 export async function main(event, context) {
 
     const data = JSON.parse(event.body);
-    data.orientation = data.orientation.toLowerCase();
-    data.vendor_name = data.vendor_name;
-    data.vendor_phn = data.vendor_phn;
+    data.orientation = data.orientation;
+    data.type = data.type;
+    data.name = data.name;
+    data.phone = data.phone;
     data.created_at = Date.now();
-    data.vendor_id = data.vendor_phn+'_'+abbreviate(data.vendor_name, {length: 4}).toLowerCase() + '_' + data.orientation;
+    data.vendor_id = data.phone + '_' +
+            abbreviate(data.name, {length: 4}).toLowerCase() + '_' +
+                     data.orientation.toLowerCase();
     data.pk = data.vendor_id;
-    data.sk = data.orientation;
+    data.sk = data.type;
 
   const params = {
     TableName: process.env.tableName,
     Item: data,
-    ConditionExpression: "vendor_id <> :vi ",
+    ConditionExpression: "vendor_id <> :vi OR phone <> :phone",
     ExpressionAttributeValues:{
-        ":vi": data.vendor_id
+        ":vi": data.vendor_id,
+        ":phone": data.phone
       }
   };
   try {
