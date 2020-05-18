@@ -41,7 +41,6 @@ provider:
         - "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.tableName}/index/*"
 
 functions:
-
   # function for adding an order for customer
   add-order:
     handler: api/add-order.main
@@ -108,7 +107,27 @@ functions:
     description: GET /status
     events:
       - http:
-          path: /status
+          path: status
+          method: get
+          cors: true
+
+    # function for getting by status
+  get-object-info:
+    handler: api/get-object-info.main
+    description: GET /object
+    events:
+      - http:
+          path: object
+          method: get
+          cors: true
+
+  # function for all by customers
+  get-customer-order:
+    handler: api/get-customer-order.main
+    description: GET /customer/orders
+    events:
+      - http:
+          path: /customer/orders
           method: get
           cors: true
 
@@ -119,6 +138,25 @@ functions:
     events:
       - http:
           path: status
+          method: patch
+          cors: true
+
+  # function for updating status
+  update-order:
+    handler: api/update-order.main
+    description: PATCH /order
+    events:
+      - http:
+          path: order
+          method: patch
+          cors: true
+
+  confirm-order:
+    handler: api/confirm-order.main
+    description: put /c/order
+    events:
+      - http:
+          path: /c/order
           method: patch
           cors: true
 
