@@ -2,29 +2,53 @@ import * as dynamoDbLib from "../libs/dynamodb-lib";
 import { success, failure } from "../libs/response-lib";
 
 export async function main(event, context) {
-  const data = JSON.parse(event.body);
-
-  const params = {
-    TableName: process.env.tableName,
-    Item: data,
-    Key: {
-      pk: data.pk,
-      sk: data.sk
-    },
-    UpdateExpression: "SET #status = :status",
-    ExpressionAttributeNames: {
-      "#status": 'status'
-    },
-    ExpressionAttributeValues: {
-      ":status": data.status
-    },
-    ReturnValues: "ALL_NEW"
-  };
-
   try {
+    const data = JSON.parse(event.body);
+    var params;
+
+    data.forEach(async element => {
+      params = {
+        TableName: process.env.tableName,
+        Item: element,
+        Key: {
+          pk: element.pk,
+          sk: element.sk
+        },
+        UpdateExpression: "SET #status = :status",
+        ExpressionAttributeNames: {
+          "#status": 'status'
+        },
+        ExpressionAttributeValues: {
+          ":status": element.status
+        },
+        ReturnValues: "ALL_NEW"
+      };
+
+     await dynamoDbLib.call("update", params);
+    });
+
+    // for(var element = 0; element< data.length; element++){
+    //     params = {
+    //     TableName: process.env.tableName,
+    //     Item: element,
+    //     Key: {
+    //       pk: element.pk,
+    //       sk: element.sk
+    //     },
+    //     UpdateExpression: "SET #status = :status",
+    //     ExpressionAttributeNames: {
+    //       "#status": 'status'
+    //     },
+    //     ExpressionAttributeValues: {
+    //       ":status": element.status
+    //     },
+    //     ReturnValues: "ALL_NEW"
+    //   };
+    //   await dynamoDbLib.call("update", params);
+    // }
+
     await dynamoDbLib.call("update", params);
     return success({
-      data: params.Item,
       isExecuted: true
     });
   } catch (e) {
