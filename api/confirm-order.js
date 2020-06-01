@@ -5,16 +5,17 @@ export async function main(event, context) {
 
   try {
     const data = JSON.parse(event.body);
-    const params;
+    data.pk = data.order_id;
+    data.sk = data.orientation;
+    var params;
     params = {
       TransactItems: [{
         Put: {
           TableName: process.env.tableName,
+          Item: data,
           order_id: data.order_id,
           created_at: Date.now(),
           orientation: data.orientation,
-          pk: data.order_id,
-          sk: data.orientation,
 
           ConditionExpression: "order_id <> :oi ",
           ExpressionAttributeValues: {
@@ -24,17 +25,21 @@ export async function main(event, context) {
       }, {
         Update: {
           TableName: process.env.tableName,
-          Item: element,
+          Item: data,
           Key: {
-            pk: element.pk,
-            sk: element.sk
+            pk: data.pk,
+            sk: data.sk
           },
           UpdateExpression: "SET #status = :status",
           ExpressionAttributeNames: {
-            "#status": 'status'
+            "#status": 'status',
+            '#pk': 'pk',
+            '#sk': 'sk'
           },
           ExpressionAttributeValues: {
-            ":status": element.status
+            ":status": data.status,
+            ":pk": data.pk,
+            ":sk": data.sk
           },
           ReturnValues: "ALL_NEW"
         }
@@ -43,9 +48,8 @@ export async function main(event, context) {
 
     await dynamoDbLib.call("transactWrite", params);
 
-
     return success({
-      data: params.TransactItems,
+      data: params,
       isExecuted: true
     });
   } catch (e) {
