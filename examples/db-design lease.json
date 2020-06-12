@@ -1,0 +1,44 @@
+{
+    "pk":"1589592677226_batl_order",
+    "sk":"lease",
+    "orientation":"lease",
+    "status":"order confirmed",
+    "order_id":"1589592677226_batl_order",
+    "own_vendor":[
+
+        {
+            "capacity": "1",
+            "device_id": "12345678",
+            "truck_id": "truck_3_covered_dhaka-123458",
+            "truck_reg": "dhaka-123458",
+            "type": "covered"
+          },
+          {
+            "capacity": "3",
+            "truck_id": "truck_3_covered_dhaka-123457",
+            "truck_reg": "dhaka-123457",
+            "type": "covered"
+          }
+
+    ],
+    "other_vendor":[
+        {
+            "vendor_email": "tbl@tbl.com",
+            "vendor_id": "vendor_tbl_1237",
+            "vendor_name": "True Brothers LTD",
+            "vendor_phn": "01673092106",
+            "capacity":"5",
+            "type":"covered",
+            "amount":"3"
+        },
+        {
+            "vendor_email": "tbl@tbl.com",
+            "vendor_id": "vendor_tbl_1237",
+            "vendor_name": "True Brothers LTD",
+            "vendor_phn": "01673092106",
+            "capacity":"3",
+            "type":"open",
+            "amount":"1"
+        }
+    ]
+}

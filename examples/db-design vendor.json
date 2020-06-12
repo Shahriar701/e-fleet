@@ -1,0 +1,12 @@
+{
+  "email": "truckload@truckload.com",
+  "phone": "12344321",
+  "type": "corporate",
+  "name": "Truckload Companies Ltd",
+  "orientation": "vendor",
+  "status": "owner",
+  "created_at": 1589593789523,
+  "vendor_id": "12344321_trcl_vendor",
+  "pk": "12344321_trcl_vendor",
+  "sk": "corporate"
+}

@@ -1,0 +1,253 @@
+// Add new Customer
+
+Url: http://localhost:3000/customer
+
+Method: post
+
+//body param object for Add new Customer
+{
+	"orientation":"customer",
+	"customer_name":"Brtish American Tobacco Ltd",
+	"customer_email": "bat@bat.com",
+    "customer_phn": "01673092106",
+    "customer_type": "corporate"
+}
+
+// response object for Add new Customer
+
+{
+    "data": {
+        "orientation": "customer",
+        "customer_name": "Brtish American Tobacco Ltd",
+        "customer_email": "bat@bat.com",
+        "customer_phn": "01673092106",
+        "customer_type": "corporate",
+        "created_at": 1589299429048,
+        "customer_id": "customer_batl_bat@bat.com",
+        "pk": "customer_batl_01673092106",
+        "sk": "customer"
+    },
+    "isExecuted": true
+}
+
+// Add new vendor
+
+Url: http://localhost:3000/vendor
+
+Method: post
+
+//body param object for Add new Customer
+{
+	"vendor_email": "tcl@tcl.com",
+	"vendor_phn": "01673092106",
+	"vendor_type": "corporate",
+	"vendor_name": "Truckload Companies Ltd",
+	"orientation": "Vendor"
+}
+
+// response object for Add new vendor
+
+{
+    "data": {
+        "vendor_email": "tcl@tcl.com",
+        "vendor_phn": "01673092106",
+        "vendor_type": "corporate",
+        "vendor_name": "Truckload Companies Ltd",
+        "orientation": "vendor",
+        "created_at": 1589300677966,
+        "vendor_id": "vendor_trcl_01673092106",
+        "pk": "vendor_trcl_01673092106",
+        "sk": "vendor"
+    },
+    "isExecuted": true
+}
+
+// Add new order
+
+Url: http://localhost:3000/order
+
+Method: post
+
+//body param object for Add new Customer with status order placed
+
+{
+	"customer_name":"Brtish American Tobacco Ltd",
+	"customer_id":"customer_batl_01673092106",
+	"orientation":"Order"
+}
+
+// response object for Add new order
+
+{
+    "data": {
+        "vendor_email": "tcl@tcl.com",
+        "vendor_phn": "01673092106",
+        "vendor_type": "corporate",
+        "vendor_name": "Truckload Companies Ltd",
+        "orientation": "vendor",
+        "created_at": 1589300677966,
+        "vendor_id": "vendor_trcl_01673092106",
+        "pk": "vendor_trcl_01673092106",
+        "sk": "vendor"
+    },
+    "isExecuted": true
+}
+
+Url: http://localhost:3000/truck
+
+Method: post
+
+//body param object for Add new truck for truckload as vendor
+{
+    "vendor_id": "vendor_trcl_01673092106",
+	"vendor_name": "Truckload Companies Ltd",
+    "truck_reg":"dhaka-123456",
+    "device_id":"12345679",
+    "capacity":"3",
+    "type":"covered",
+    "status": "not available", // available
+    "orientation":"truck owner"
+}
+// response object for Add new truckload as vendor
+
+{
+    "data": {
+        "vendor_id": "vendor_trcl_01673092106",
+        "vendor_name": "Truckload Companies Ltd",
+        "truck_reg": "dhaka-123456",
+        "device_id": "12345679",
+        "capacity": "3",
+        "type": "covered",
+        "status": "not available", // available
+        "orientation": "truck owner",
+        "truck_id": "truck_dhaka-123456",
+        "created_at": 1589311601591,
+        "pk": "truck_dhaka-123456",
+        "sk": "vendor_trcl_01673092106"
+    },
+    "isExecuted": true
+}
+
+
+Url: http://localhost:3000/truck
+
+Method: post
+
+//body param object for Add new truck for others as vendor
+{
+    "vendor_id": "vendor_rbet_01673092106",
+	"vendor_name": "Raju bhai er truck",
+    "truck_reg":"dhaka-123456",
+    "device_id":"12345679",
+    "capacity":"3",
+    "type":"open",
+    "status": "returned", // rented
+    "orientation":"truck owner"
+}
+// response object for Add new others as vendor
+
+{
+    "data": {
+        "vendor_id": "vendor_rbet_01673092106",
+        "vendor_name": "Raju bhai er truck",
+        "truck_reg": "dhaka-123456",
+        "device_id": "12345679",
+        "capacity": "3",
+        "type": "open",
+        "status": "returned", // rented
+        "orientation": "truck owner",
+        "truck_id": "truck_dhaka-123456",
+        "created_at": 1589311966947,
+        "pk": "truck_dhaka-123456",
+        "sk": "vendor_rbet_01673092106"
+    },
+    "isExecuted": true
+}
+
+Url: http://localhost:3000/lease
+
+Method: post
+
+//body param object for Add new truck lease
+{
+
+    "order_id":"order_batl_1589216159426",
+    "orientation":"lease",
+    "own_vendor":[
+
+    {
+        "capacity": "3",
+        "device_id": "12345678",
+        "truck_id": "truck_dhaka-123451",
+        "truck_reg": "dhaka-123451",
+        "type": "covered"
+      },
+      {
+        "capacity": "5",
+        "device_id": "12345678",
+        "truck_id": "truck_dhaka-123453",
+        "truck_reg": "dhaka-123451",
+        "type": "covered"
+      }
+
+    ],
+    "other_vendor":[
+        {
+            "capacity":"3",
+            "type":"open",
+            "amount":"1",
+            "truck_id": "truck_dhaka-123453",
+        	"truck_reg": "dhaka-123456"
+        }
+    ]
+
+}
+
+// response object for Add new truck lease
+{
+    "data": {
+        "order_id": "order_batl_1589216159426",
+        "orientation": "lease",
+        "own_vendor": [
+            {
+                "capacity": "3",
+                "device_id": "12345678",
+                "truck_id": "truck_dhaka-123451",
+                "truck_reg": "dhaka-123451",
+                "type": "covered"
+            },
+            {
+                "capacity": "5",
+                "device_id": "12345678",
+                "truck_id": "truck_dhaka-123453",
+                "truck_reg": "dhaka-123451",
+                "type": "covered"
+            }
+        ],
+        "other_vendor": [
+            {
+                "capacity": "3",
+                "type": "open",
+                "amount": "1",
+                "truck_id": "truck_dhaka-123453",
+                "truck_reg": "dhaka-123456"
+            }
+        ],
+        "created_at": 1589317509172,
+        "pk": "order_batl_1589216159426",
+        "sk": "lease"
+    },
+    "isExecuted": true
+}
+
+get for all orders, customers, vendors, own trucklist, other trucklist.
+here oreintation is obligatory primary index (default = 'order') all others are searchable params for fine tune
+
+Get: http://localhost:3000/all?orientation=customer&name=Brtish American Tobacco Ltd&phone=01673092106&email=bat@bat.com
+
+get for all status, customers, vendors, own trucklist, other trucklist.
+here oreintation is obligatory primary index (default = 'order') all others are searchable params for fine tune
+Get: http://localhost:3000/status?status=available&pk=dhaka-123456&capacity=5&type=covered
+
+pk and sk value diba. match korlei update hoye jabe. any pk sk value niye oi object update korte parba
+PATCH: http://localhost:3000/status

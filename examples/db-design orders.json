@@ -1,0 +1,28 @@
+{
+  "comment": "mairalamu kaje faki diley",
+  "expected_delivery_date": "15-01-21",
+  "loading_date": "12-12-20",
+  "loading_point": "Mirpur",
+  "number_of_consignment": "5",
+  "starting_date": "10-01-21",
+  "truck_type": [
+    {
+      "capacity": "5",
+      "type": "covered",
+      "quantity": "3"
+    },
+    {
+      "capcacity": 3,
+      "type": "open",
+      "quantity": "2"
+    }
+  ],
+  "created_at": 1589592677226,
+  "customer_id": "01673092106_batl_customer",
+  "name": "Brtish American Tobacco Ltd",
+  "order_id": "1589592677226_batl_order",
+  "orientation": "order",
+  "pk": "1589592677226_batl_order",
+  "sk": "01673092106_batl_customer",
+  "status": "details collected"
+}

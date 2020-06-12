@@ -1,0 +1,77 @@
+{
+    "pk":"customer_bat",        //sk
+    "sk":"customer",           //pk
+    "email":"asdf@aerf.com",
+    "phn":"123456",
+    "company_name":"bat",
+    "role":"customer"
+}
+
+{
+    "pk":"order_bat_1",         //sk
+    "sk":"customer_bat",        //pk
+    "order_id":"order_bat_1",
+    "status":"order placed",
+    "number_of_consignment": 2,
+    "timestamp":123456,
+    "Loading Date":"12-12-20",
+    "App Arrival Date":"10-01-21",
+    "Loading Point":"Mirpur",
+    "Unloading Point":"ctg medical",
+    "truck_list":[
+        {
+            "truck_id":"12345",
+            "drive_name":"nobi",
+            "driver_phn":"12345",
+            "typeOfGoods":""
+        }
+    ],
+}
+
+{
+    "pk":"vehical_rent_1",          //sk
+    "sk":"order_bat_1",             //pk
+    "vehical_id":"vehical_12345",
+    "driver_name":"raju",
+    "driver_phn":"12345",
+    "reg":"12345678"
+}
+
+{
+    "pk":"truck_id",        //sk
+    "sk": "truck",          //pk
+    "truck_reg":"12345",     
+    "weight": "5",
+    "device_id":"imei",
+    "type": "covered",
+    "is_occupied": false
+}
+
+{
+    "pk":"weight",             //sk
+    "sk": "is_occupied",       //pk
+    "truck_reg":"12345",     
+    "weight": "5",
+    "device_id":"imei",
+    "type": "covered",
+    "is_occupied": false
+}
+
+//gsi2
+
+{
+    "status":"order placed",
+    "sk":"customer_bat",
+    "order_id":"order_bat_1"
+}
+
+
+
+// information for specific customer //
+// name of all customers //
+// single order under single customer //
+// all order under single customer //
+// all order filtered by status under single customer //
+// all order filtered by status under all customer //
+// all vehical under singel order //
+// hiring list with status by single vehicle //

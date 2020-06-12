@@ -1,0 +1,22 @@
+table -> trckload
+primaryIndes -> pk sk
+gsi1 index -> sk pk
+gsi2 index -> orientation Name
+gsi3 index -> status pk
+
+required post ->
+    posApi -> add customer
+    posApi -> add vendor
+    posApi -> add lease
+
+requid gets ->
+    ***getApi -> for searching customers name || by phone || by email
+    ***getApi -> for searching vendors name || by phone || by email
+    ***getApi -> for all orders in db
+    getApi -> for all trucks to add to order searching by status || type || capacity //
+
+requid updates ->
+    updateApi -> for orders status and others
+    transactApi -> order r truck er status
+
+

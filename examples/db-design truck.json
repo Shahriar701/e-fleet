@@ -1,0 +1,15 @@
+{
+    "truck_id": "dhaka-123456",
+    "vendor_id": "12344321_trcl_vendor",
+    "truck_reg": "dhaka-123456",
+    "name": "Truckload Companies Ltd",
+    "device_id": "12345678",
+    "phone": "12345",
+    "capacity": "5",
+    "type": "covered",
+    "orientation": "owner",
+    "status": "available",
+    "created_at": 1589595390774,
+    "pk": "dhaka-123456",
+    "sk": "12344321_trcl_vendor"
+}

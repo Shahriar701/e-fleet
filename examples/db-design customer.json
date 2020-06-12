@@ -1,0 +1,11 @@
+{
+  "orientation": "customer",
+  "name": "Brtish American Tobacco Ltd",
+  "email": "bat@bat.com",
+  "phn": "01673092106",
+  "type": "corporate",
+  "created_at": 1589591835499,
+  "customer_id": "01673092106_batl_customer",
+  "pk": "01673092106_batl_customer",
+  "sk": "corporate"
+}
