@@ -5,13 +5,13 @@ export async function main(event, context) {
   let query = event.queryStringParameters;
   let limit = query && query.limit ? parseInt(query.limit) : 100;
   let status = query && query.status ? query.status : 'available';
-  let pk = query && query.pk ? query.pk : "";
+  let date = query && query.created_date ? query.created_date : "";
   let capacity = query && query.capacity ? query.capacity : "";
   let type = query && query.type ? query.type : "";
 
   var params;
   try {
-    if (!pk && !capacity && !type) {
+    if (!date && !capacity && !type) {
       params = {
         TableName: process.env.tableName,
         IndexName: "status-index",
@@ -25,7 +25,7 @@ export async function main(event, context) {
         Limit: limit,
         ScanIndexForward: true
       };
-    } else if (!pk && !type) {
+    } else if (!date && !type) {
       params = {
         TableName: process.env.tableName,
         IndexName: "status-index",
@@ -42,7 +42,7 @@ export async function main(event, context) {
         Limit: limit,
         ScanIndexForward: true
       };
-    } else if (!pk && !capacity) {
+    } else if (!date && !capacity) {
       params = {
         TableName: process.env.tableName,
         IndexName: "status-index",
@@ -63,19 +63,19 @@ export async function main(event, context) {
       params = {
         TableName: process.env.tableName,
         IndexName: "status-index",
-        KeyConditionExpression: "#status = :status and begins_with(#pk, :pk)",
+        KeyConditionExpression: "#status = :status and begins_with(#created_date, :created_date)",
         ExpressionAttributeNames: {
           '#status': 'status',
-          "#pk": 'pk',
+          "#created_date": 'created_date',
         },
         ExpressionAttributeValues: {
           ":status": status,
-          ":pk": pk
+          ":created_date": date
         },
         Limit: limit,
         ScanIndexForward: true
       };
-    } else if (!pk) {
+    } else if (!date) {
       params = {
         TableName: process.env.tableName,
         IndexName: "status-index",
@@ -98,15 +98,15 @@ export async function main(event, context) {
       params = {
         TableName: process.env.tableName,
         IndexName: "status-index",
-        KeyConditionExpression: "#status = :status and begins_with(#pk, :pk)",
+        KeyConditionExpression: "#status = :status and begins_with(#created_date, :created_date)",
         ExpressionAttributeNames: {
           '#status': 'status',
-          '#pk': 'pk',
+          '#created_date': 'created_date',
           '#type': 'type',
         },
         ExpressionAttributeValues: {
           ":status": status,
-          ':pk': pk,
+          ':created_date': date,
           ':type': type
         },
         FilterExpression: "begins_with(#type, :type)",
@@ -117,15 +117,15 @@ export async function main(event, context) {
       params = {
         TableName: process.env.tableName,
         IndexName: "status-index",
-        KeyConditionExpression: "#status = :status and begins_with(#pk, :pk)",
+        KeyConditionExpression: "#status = :status and begins_with(#created_date, :created_date)",
         ExpressionAttributeNames: {
           '#status': 'status',
-          '#pk': 'pk',
+          '#created_date': 'created_date',
           '#capacity': 'capacity'
         },
         ExpressionAttributeValues: {
           ":status": status,
-          ':pk': pk,
+          ':created_date': date,
           ':capacity': capacity
         },
         FilterExpression: "begins_with(#capacity, :capacity)",
@@ -136,16 +136,16 @@ export async function main(event, context) {
       params = {
         TableName: process.env.tableName,
         IndexName: "status-index",
-        KeyConditionExpression: "#status = :status and begins_with(#pk, :pk)",
+        KeyConditionExpression: "#status = :status and begins_with(#created_date, :created_date)",
         ExpressionAttributeNames: {
           '#status': 'status',
-          '#pk': 'pk',
+          '#created_date': 'created_date',
           '#capacity': 'capacity',
           '#type': 'type',
         },
         ExpressionAttributeValues: {
           ":status": status,
-          ':pk': pk,
+          ':created_date': date,
           ':capacity': capacity,
           ':type': type
         },
@@ -156,6 +156,7 @@ export async function main(event, context) {
     }
 
     const result = await dynamoDbLib.call("query", params);
+
     return success({
       data: result.Items,
       isExecuted: true

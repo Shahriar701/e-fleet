@@ -7,20 +7,17 @@ export async function main(event, context) {
 
   const data = JSON.parse(event.body);
 
-    data.order_id = data.order_id;
-    data.created_at = Date.now();
-    data.created_date = moment().add(-2, 'hours').format('YYYY-MM-DD hh:mm:ss');
-    data.orientation = data.orientation;
-    data.pk = data.order_id;
-    data.sk = data.orientation;
+  data.orientation = data.orientation;
+  data.created_at = Date.now();
+  data.created_date = moment().add(-2, 'hours').format('YYYY-MM-DD');
+  data.target_id = data.created_date + '_' + data.orientation.toLowerCase();
+  data.pk = data.target_id;
+  data.sk = data.created_date;
+  data.status = data.orientation;
 
   const params = {
     TableName: process.env.tableName,
-    Item: data,
-    ConditionExpression: "order_id <> :oi ",
-    ExpressionAttributeValues:{
-        ":oi": data.order_id
-    }
+    Item: data
   };
 
   try {

@@ -91,6 +91,16 @@ functions:
           method: post
           cors: true
 
+  #add target
+  add-target:
+    handler: api/add-target.main
+    description: POST /target
+    events:
+      - http:
+          path: /target
+          method: post
+          cors: true
+
   # function for all
   get-all:
     handler: api/get-all.main
@@ -111,7 +121,7 @@ functions:
           method: get
           cors: true
 
-    # function for getting by status
+  # function for getting by status
   get-object-info:
     handler: api/get-object-info.main
     description: GET /object
@@ -128,6 +138,36 @@ functions:
     events:
       - http:
           path: /customer/orders
+          method: get
+          cors: true
+
+  # function for all by customers
+  get-status-count:
+    handler: api/get-status-count.main
+    description: GET /c/status
+    events:
+      - http:
+          path: /c/status
+          method: get
+          cors: true
+
+  # function for all by customers
+  get-total-trip:
+    handler: api/get-total-trip.main
+    description: GET /c/trip
+    events:
+      - http:
+          path: /c/trip
+          method: get
+          cors: true
+
+  # function for all by customers
+  get-target:
+    handler: api/get-target.main
+    description: GET /c/target
+    events:
+      - http:
+          path: /c/target
           method: get
           cors: true
 
@@ -165,6 +205,8 @@ resources:
   - ${file(resources/api-gateway-errors.yml)}
   # DynamoDB
   - ${file(resources/dynamodb-table.yml)}
+    # S3
+  - ${file(resources/s3-bucket.yml)}
   # Cognito
   - ${file(resources/cognito-user-pool.yml)}
   - ${file(resources/cognito-identity-pool.yml)}

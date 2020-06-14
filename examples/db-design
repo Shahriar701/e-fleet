@@ -8,12 +8,14 @@ required post ->
     posApi -> add customer
     posApi -> add vendor
     posApi -> add lease
+    postApi -> add order
 
 requid gets ->
     ***getApi -> for searching customers name || by phone || by email
     ***getApi -> for searching vendors name || by phone || by email
     ***getApi -> for all orders in db
-    getApi -> for all trucks to add to order searching by status || type || capacity //
+    ***getApi -> for all trucks to add to order searching by status || type || capacity //
+    ***getApi -> 
 
 requid updates ->
     updateApi -> for orders status and others
