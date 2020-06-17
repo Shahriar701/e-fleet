@@ -18,7 +18,6 @@ export async function main(event, context) {
     var params;
     var targetValue = [];
     var actualProjection = [];
-    var temp = [];
 
     try {
 
@@ -56,23 +55,25 @@ export async function main(event, context) {
 
                 if (getQuery[e] === "target") {
                     result.Items.forEach(element => {
-                        num = num + element.target_value;
+                        num = num + parseInt(element.target_value);
                     });
-                    targetValue.push({ value: num });
-                    temp.push(result);
-                    console.log(targetValue);
+
+                    targetValue.push({ value: num.toString() });
 
                 } else {
-                    actualProjection.push({ value: count });
-                    console.log(actualProjection);
+                    actualProjection.push({ value: count.toString() });
                 }
+
+                num = null;
+                count = null;
+                result = null;
 
             };
 
         }
 
-        return success(
-            [
+        return success({
+            data: [
                 {
                     seriesname: seriesname[0],
                     data: targetValue,
@@ -81,8 +82,9 @@ export async function main(event, context) {
                     seriesname: seriesname[1],
                     data: actualProjection,
                 }
-            ]
-        );
+            ],
+            isExecuted: true
+        });
 
     } catch (e) {
         return failure({ isExecuted: false, error: e });

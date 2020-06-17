@@ -41,7 +41,7 @@ export async function main(event, context) {
         }
         const result = await dynamoDbLib.call("query", params);
         return success({
-            data: result.Items[0],
+            data: result.Items,
             isExecuted: true
         });
     } catch (e) {

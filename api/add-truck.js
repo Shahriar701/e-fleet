@@ -18,7 +18,7 @@ export async function main(event, context) {
   data.truck_id = data.truck_reg+'_'+data.orientation;
   data.status = data.status;
   data.created_at = Date.now();
-  data.created_date = moment().add(-2, 'hours').format('YYYY-MM-DD hh:mm:ss');
+  data.created_date = moment().add(-2, 'hours').format('YYYY-MM-DDThh:mm:ss');
   data.pk = data.truck_id;
   data.sk = data.vendor_id;
 

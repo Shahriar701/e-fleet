@@ -21,7 +21,7 @@
 //         },
 //         UpdateExpression: "SET #status = :status",
 //         ExpressionAttributeNames: {
-//           "#status": 'status'
+//           "#status": "status"
 //         },
 //         ExpressionAttributeValues: {
 //           ":status": data.status
@@ -32,10 +32,10 @@
 //       Put: {
 //         TableName: process.env.tableName,
 //         Item: data,
-//         ConditionExpression: '#pk = :pk AND #sk = :sk',
+//         ConditionExpression: "#pk = :pk AND #sk = :sk",
 //         ExpressionAttributeNames: {
-//           '#pk': 'pk',
-//           '#sk': 'sk'
+//           "#pk": "pk",
+//           "#sk": "sk"
 //         },
 //         ExpressionAttributeValues: {
 //           ":pk": data.pk,
@@ -52,7 +52,7 @@
 //         },
 //         UpdateExpression: "SET #status = :status",
 //         ExpressionAttributeNames: {
-//           "#status": 'status'
+//           "#status": "status"
 //         },
 //         ExpressionAttributeValues: {
 //           ":status": data.status
@@ -140,7 +140,7 @@
 
 //1591997654844 
 
-const moment = require('moment');
+const moment = require("moment");
 
-console.log(moment().add(-7, 'days').add(-2, 'hours').format('YYYY-MM-DD'));
+console.log(moment().add(-7, "days").add(-2, 'hours').format("YYYY-MM-DDThh:mm:ss"));
 

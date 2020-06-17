@@ -161,13 +161,63 @@ functions:
           method: get
           cors: true
 
-  # function for all by customers
+  # function for getting target rarnge
   get-target:
     handler: api/get-target.main
     description: GET /c/target
     events:
       - http:
           path: /c/target
+          method: get
+          cors: true
+
+  # function for getting target rarnge
+  get-trip-graph:
+    handler: api/get-trip-graph.main
+    description: GET /g/trip
+    events:
+      - http:
+          path: /g/trip
+          method: get
+          cors: true
+
+  # trip graph for client        
+  get-client-trip-graph:
+    handler: api/get-client-trip-graph.main
+    description: GET /g/c/trip
+    events:
+      - http:
+          path: /g/c/trip
+          method: get
+          cors: true
+
+  # function for all by customers
+  get-client-total-trip:
+    handler: api/get-client-total-trip.main
+    description: GET /c/c/trip
+    events:
+      - http:
+          path: /c/c/trip
+          method: get
+          cors: true
+
+  # function for all by customers
+  get-client-status-trip:
+    handler: api/get-client-status-trip.main
+    description: GET /s/c/trip
+    events:
+      - http:
+          path: /s/c/trip
+          method: get
+          cors: true
+
+  # function for all by customers
+  get-client-status-count:
+    handler: api/get-client-status-count.main
+    description: GET /c/c/status
+    events:
+      - http:
+          path: /c/c/status
           method: get
           cors: true
 

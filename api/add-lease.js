@@ -9,7 +9,7 @@ export async function main(event, context) {
 
     data.order_id = data.order_id;
     data.created_at = Date.now();
-    data.created_date = moment().add(-2, 'hours').format('YYYY-MM-DD hh:mm:ss');
+    data.created_date = moment().add(-2, 'hours').format('YYYY-MM-DDThh:mm:ss');
     data.orientation = data.orientation;
     data.pk = data.order_id;
     data.sk = data.orientation;
