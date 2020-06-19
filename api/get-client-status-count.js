@@ -1,18 +1,20 @@
 import * as dynamoDbLib from "../libs/dynamodb-lib";
 import { success, failure } from "../libs/response-lib";
 
-const moment = require("moment");
+const moment = require("moment-timezone");
+const date = new Date();
 
 export async function main(event, context) {
 
     let query = event.queryStringParameters;
     let sk = query && query.sk;
 
-    let today = moment().add(-2, "hours").format('YYYY-MM-DDThh:mm:ss');
-    let thisWeek = moment().add(-7, "days").add(-2, "hours").format('YYYY-MM-DDThh:mm:ss');
-    let lastMonth = moment().add(-30, "days").add(-2, "hours").format('YYYY-MM-DDThh:mm:ss');
+    let today = moment(date).tz("Asia/Dhaka").format("YYYY-MM-DDThh:mm:ss");
+    let yesterday = moment(date).tz("Asia/Dhaka").add(-1, "days").format("YYYY-MM-DDThh:mm:ss");
+    let thisWeek = moment(date).tz("Asia/Dhaka").add(-7, "days").format("YYYY-MM-DDThh:mm:ss");
+    let lastMonth = moment(date).tz("Asia/Dhaka").add(-30, "days").format("YYYY-MM-DDThh:mm:ss");
 
-    let targets = [lastMonth, thisWeek, today, today];
+    let targets = [lastMonth, thisWeek, yesterday, today];
 
     var params;
     var thisDay;
@@ -22,7 +24,6 @@ export async function main(event, context) {
     try {
 
         for (var element = 0; element < targets.length - 1; element++) {
-
             params = {
                 TableName: process.env.tableName,
                 IndexName: "reverse-index",
@@ -38,7 +39,7 @@ export async function main(event, context) {
                     ":start": targets[element],
                     ":end": targets[element + 1]
                 },
-
+                Select: "COUNT",
                 FilterExpression: "#status = :status AND #created_date BETWEEN :start AND :end",
                 ScanIndexForward: false
             };
@@ -52,15 +53,12 @@ export async function main(event, context) {
                 count += result.Count;
             }
 
-            if (targets[element] === today) {
+            if (targets[element] === yesterday) {
                 thisDay = count.toString();
-
             } else if (targets[element] === thisWeek) {
                 pastWeek = count.toString();
-
             } else {
                 pastMonth = count.toString();
-
             }
 
             count = null;

@@ -10,7 +10,6 @@ export async function main(event, context) {
   let phone = query && query.phone ? query.phone : "";
   let email = query && query.email ? query.email : "";
 
-
   var params;
   try {
     if (!name && !phone && !email) {
@@ -156,7 +155,13 @@ export async function main(event, context) {
         ScanIndexForward: true
       };
     }
-    const result = await dynamoDbLib.call("query", params);
+    var result = await dynamoDbLib.call("query", params);
+
+    if (result.LastEvaluatedKey) {
+      params.ExclusiveStartKey = result.LastEvaluatedKey;
+      result = await dynamoDbLib.call("query", params);
+    }
+
     return success({
       data: result.Items,
       isExecuted: true

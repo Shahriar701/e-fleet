@@ -39,7 +39,12 @@ export async function main(event, context) {
                 ScanIndexForward: true
             };
         }
-        const result = await dynamoDbLib.call("query", params);
+        var result = await dynamoDbLib.call("query", params);
+
+        if (result.LastEvaluatedKey) {
+            params.ExclusiveStartKey = result.LastEvaluatedKey;
+            result = await dynamoDbLib.call("query", params);
+        }
         return success({
             data: result.Items,
             isExecuted: true

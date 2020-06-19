@@ -6,8 +6,8 @@ export async function main(event, context) {
     let query = event.queryStringParameters;
     let sk = query && query.sk;
 
-    let statusArray = ["consignmentDone", "orderCancelled", "ordersPlaced", "detailsCollected", "orderConfirmed",
-        "loadCompleted", "inTransit", "unloadComplete"];
+    let statusArray = ["orderCancelled","consignmentDone", "ordersPlaced", "detailsCollected",
+        "orderConfirmed", "loadCompleted", "inTransit", "unloadComplete"];
 
     var params;
     var successNum;
@@ -30,6 +30,7 @@ export async function main(event, context) {
                     ":sk": sk,
                     ":status": statusArray[e]
                 },
+                Select: "COUNT",
                 FilterExpression: "begins_with(#status, :status)",
                 ScanIndexForward: false
             };
@@ -48,11 +49,10 @@ export async function main(event, context) {
             } else if (statusArray[e] === "consignmentDone") {
                 successNum = count;
             } else {
-                progressNum = count;
+                progressNum += count;
             }
 
             count = null;
-
         }
 
         return success({
@@ -62,7 +62,7 @@ export async function main(event, context) {
                     value: successNum.toString()
                 },
                 {
-                    label: 'cancelled',
+                    label: 'Cancelled',
                     value: cancelNum.toString()
                 },
                 {

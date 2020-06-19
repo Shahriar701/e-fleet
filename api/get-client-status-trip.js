@@ -37,6 +37,7 @@ export async function main(event, context) {
                     ":status": statusArray[e]
                 },
                 FilterExpression: "begins_with(#status, :status)",
+                Select: "COUNT",
                 ScanIndexForward: false
             };
 

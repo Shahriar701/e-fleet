@@ -1,7 +1,8 @@
 import * as dynamoDbLib from "../libs/dynamodb-lib";
 import { success, failure } from "../libs/response-lib";
 
-const moment = require('moment');
+const moment = require('moment-timezone');
+const date = new Date();
 
 export async function main(event, context) {
 
@@ -9,7 +10,7 @@ export async function main(event, context) {
 
     data.order_id = data.order_id;
     data.created_at = Date.now();
-    data.created_date = moment().add(-2, 'hours').format('YYYY-MM-DDThh:mm:ss');
+    data.created_date = data.created_date = moment(date).tz("Asia/Dhaka").format("YYYY-MM-DDThh:mm:ss");
     data.orientation = data.orientation;
     data.pk = data.order_id;
     data.sk = data.orientation;

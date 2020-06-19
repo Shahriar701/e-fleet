@@ -3,13 +3,13 @@ import { success, failure } from "../libs/response-lib";
 
 export async function main(event, context) {
 
-    let getQuery = ["consignmentDone", "orderCancelled", "ordersPlaced", "detailsCollected", "orderConfirmed",
+    let getQuery = ["orderCancelled", "consignmentDone", "ordersPlaced", "detailsCollected", "orderConfirmed",
         "loadCompleted", "inTransit", "unloadComplete"];
 
     var params;
-    var orderNum;
-    var cancelNum;
-    var progressNum;
+    var orderNum = 0;
+    var cancelNum = 0;
+    var progressNum = 0;
 
     try {
 
@@ -26,6 +26,7 @@ export async function main(event, context) {
                 ExpressionAttributeValues: {
                     ":status": getQuery[e],
                 },
+                Select: "COUNT",
                 ScanIndexForward: false
             };
 
@@ -43,7 +44,7 @@ export async function main(event, context) {
             } else if (getQuery[e] === "consignmentDone") {
                 orderNum = count;
             } else {
-                progressNum = count;
+                progressNum += count;
             }
 
             count = null;
@@ -52,18 +53,18 @@ export async function main(event, context) {
 
         var total = orderNum + cancelNum + progressNum;
 
-        orderNum = parseFloat(((orderNum / total) * 100)).toFixed(2);
-        cancelNum = parseFloat(((cancelNum / total)) * 100).toFixed(2);
-        progressNum = parseFloat(((progressNum / total)) * 100).toFixed(2);
+        orderNum = parseInt(((orderNum / total) * 100));
+        progressNum = parseInt(((progressNum / total)) * 100);
+        cancelNum = (100 - (orderNum + progressNum));
 
         total = null;
 
         return success({
             data: [
                 {
-                    "total_completed": orderNum +"%",
-                    "total_cancelled": cancelNum +"%",
-                    "on_progress": progressNum +"%"
+                    "total_completed": orderNum + "%",
+                    "total_cancelled": cancelNum + "%",
+                    "on_progress": progressNum + "%"
                 }
             ],
             isExecuted: true

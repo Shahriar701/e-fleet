@@ -140,7 +140,10 @@
 
 //1591997654844 
 
-const moment = require("moment");
+const moment = require("moment-timezone");
+const date = new Date();
+let today = moment(date).tz("Asia/Dhaka").format("YYYY-MM-DDThh:mm:ss");
+let thisWeek = moment(date).tz("Asia/Dhaka").add(-7, "days").format("YYYY-MM-DDThh:mm:ss");
+let lastMonth = moment(date).tz("Asia/Dhaka").add(-30, "days").format("YYYY-MM-DDThh:mm:ss");
 
-console.log(moment().add(-7, "days").add(-2, 'hours').format("YYYY-MM-DDThh:mm:ss"));
 

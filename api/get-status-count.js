@@ -1,15 +1,17 @@
 import * as dynamoDbLib from "../libs/dynamodb-lib";
 import { success, failure } from "../libs/response-lib";
 
-const moment = require("moment");
+const moment = require("moment-timezone");
+const date = Date.now();
 
 export async function main(event, context) {
 
-    let today = moment().add(-2, "hours").format('YYYY-MM-DDThh:mm:ss');
-    let thisWeek = moment().add(-7, "days").add(-2, "hours").format('YYYY-MM-DDThh:mm:ss');
-    let lastMonth = moment().add(-30, "days").add(-2, "hours").format('YYYY-MM-DDThh:mm:ss');
+    let today = moment(date).tz("Asia/Dhaka").format("YYYY-MM-DDThh:mm:ss");
+    let yesterday = moment(date).tz("Asia/Dhaka").add(-1, "days").format("YYYY-MM-DDThh:mm:ss");
+    let thisWeek = moment(date).tz("Asia/Dhaka").add(-7, "days").format("YYYY-MM-DDThh:mm:ss");
+    let lastMonth = moment(date).tz("Asia/Dhaka").add(-30, "days").format("YYYY-MM-DDThh:mm:ss");
 
-    let targets = [lastMonth, thisWeek, today, today];
+    let targets = [lastMonth, thisWeek, yesterday, today];
 
     let seriesname = ["Individual", "SME", "Corporate"];
     let series = ["Individual", "SME", "Corporate"];
@@ -40,7 +42,7 @@ export async function main(event, context) {
                         ":end": targets[element + 1],
                         ":type": seriesname[e]
                     },
-
+                    Select: "COUNT",
                     FilterExpression: "begins_with(#type, :type)",
                     ScanIndexForward: false
                 };

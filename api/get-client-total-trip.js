@@ -23,6 +23,7 @@ export async function main(event, context) {
                 ":status": status
             },
             FilterExpression: "begins_with(#status, :status)",
+            Select: "COUNT",
             ScanIndexForward: false
         };
 
@@ -30,7 +31,7 @@ export async function main(event, context) {
         var result = await dynamoDbLib.call("query", params);
         var count = result.Count;
 
-        if (result.LastEvaluatedKey) {
+        while (result.LastEvaluatedKey) {
             params.ExclusiveStartKey = result.LastEvaluatedKey;
             result = await dynamoDbLib.call("query", params);
             count = count + result.Count;
