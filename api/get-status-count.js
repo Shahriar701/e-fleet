@@ -11,7 +11,7 @@ export async function main(event, context) {
     let thisWeek = moment(date).tz("Asia/Dhaka").add(-7, "days").format("YYYY-MM-DDThh:mm:ss");
     let lastMonth = moment(date).tz("Asia/Dhaka").add(-30, "days").format("YYYY-MM-DDThh:mm:ss");
 
-    let targets = [lastMonth, thisWeek, yesterday, today];
+    let targets = [today, yesterday, thisWeek, lastMonth];
 
     let seriesname = ["Individual", "SME", "Corporate"];
     let series = ["Individual", "SME", "Corporate"];
@@ -38,8 +38,8 @@ export async function main(event, context) {
                     },
                     ExpressionAttributeValues: {
                         ":status": "consignmentDone",
-                        ":start": targets[element],
-                        ":end": targets[element + 1],
+                        ":start": targets[element+1],
+                        ":end": targets[element],
                         ":type": seriesname[e]
                     },
                     Select: "COUNT",

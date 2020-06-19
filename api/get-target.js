@@ -10,9 +10,9 @@ export async function main(event, context) {
     let yesterday = moment(date).tz("Asia/Dhaka").add(-1, "days").format("YYYY-MM-DDThh:mm:ss");
     let thisWeek = moment(date).tz("Asia/Dhaka").add(-7, "days").format("YYYY-MM-DDThh:mm:ss");
     let lastWeek = moment(date).tz("Asia/Dhaka").add(-14, "days").format("YYYY-MM-DDThh:mm:ss");
-    let lastMonth = moment(date).tz("Asia/Dhaka").add(-30, "days").format("YYYY-MM-DDThh:mm:ss");
+    let lastMonth = moment(date).tz("Asia/Dhaka").add(-21, "days").format("YYYY-MM-DDThh:mm:ss");
 
-    let targets = [lastMonth, lastWeek, thisWeek, yesterday, today];
+    let targets = [today, yesterday, thisWeek, lastWeek, lastMonth];
 
     let getQuery = ["target", "consignmentDone"];
     let seriesname = ["Target Value", "Actual Projection"];
@@ -38,11 +38,11 @@ export async function main(event, context) {
                     },
                     ExpressionAttributeValues: {
                         ":status": getQuery[e],
-                        ":start": targets[element],
-                        ":end": targets[element + 1]
+                        ":start": targets[element + 1],
+                        ":end": targets[element]
 
                     },
-                    Select: "COUNT",
+
                     ScanIndexForward: false
                 };
 
