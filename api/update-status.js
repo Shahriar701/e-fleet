@@ -14,38 +14,23 @@ export async function main(event, context) {
           pk: element.pk,
           sk: element.sk
         },
-        UpdateExpression: "SET #status = :status",
+        UpdateExpression: "SET #status = :status, #previous_status = :previous_status, #updated_by = :updated_by",
         ExpressionAttributeNames: {
-          "#status": 'status'
+          "#status": 'status',
+          "#previous_status": 'previous_status',
+          "#updated_by": 'updated_by'
         },
         ExpressionAttributeValues: {
-          ":status": element.status
+          ":status": element.status,
+          ":updated_by": element.updated_by,
+          ":previous_status": element.previous_status,
+
         },
         ReturnValues: "ALL_NEW"
       };
 
-     await dynamoDbLib.call("update", params);
+      await dynamoDbLib.call("update", params);
     });
-
-    // for(var element = 0; element< data.length; element++){
-    //     params = {
-    //     TableName: process.env.tableName,
-    //     Item: element,
-    //     Key: {
-    //       pk: element.pk,
-    //       sk: element.sk
-    //     },
-    //     UpdateExpression: "SET #status = :status",
-    //     ExpressionAttributeNames: {
-    //       "#status": 'status'
-    //     },
-    //     ExpressionAttributeValues: {
-    //       ":status": element.status
-    //     },
-    //     ReturnValues: "ALL_NEW"
-    //   };
-    //   await dynamoDbLib.call("update", params);
-    // }
 
     await dynamoDbLib.call("update", params);
     return success({

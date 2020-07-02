@@ -6,13 +6,13 @@ export async function main(event, context) {
   let query = event.queryStringParameters;
   let limit = query && query.limit ? parseInt(query.limit) : 100;
   let orientation = query && query.orientation ? query.orientation : 'order';
-  let name = query && query.name ? query.name : "";
+  let sk = query && query.sk ? query.sk : "";
   let phone = query && query.phone ? query.phone : "";
   let email = query && query.email ? query.email : "";
 
   var params;
   try {
-    if (!name && !phone && !email) {
+    if (!sk && !phone && !email) {
       params = {
         TableName: process.env.tableName,
         IndexName: "orientation-index",
@@ -26,7 +26,7 @@ export async function main(event, context) {
         Limit: limit,
         ScanIndexForward: true
       };
-    } else if (!name && !email) {
+    } else if (!sk && !email) {
       params = {
         TableName: process.env.tableName,
         IndexName: "orientation-index",
@@ -43,7 +43,7 @@ export async function main(event, context) {
         Limit: limit,
         ScanIndexForward: true
       };
-    } else if (!name && !phone) {
+    } else if (!sk && !phone) {
       params = {
         TableName: process.env.tableName,
         IndexName: "orientation-index",
@@ -64,19 +64,19 @@ export async function main(event, context) {
       params = {
         TableName: process.env.tableName,
         IndexName: "orientation-index",
-        KeyConditionExpression: "#orientation = :orientation and begins_with(#name, :name)",
+        KeyConditionExpression: "#orientation = :orientation and begins_with(#sk, :sk)",
         ExpressionAttributeNames: {
           '#orientation': 'orientation',
-          "#name": 'name',
+          "#sk": 'sk',
         },
         ExpressionAttributeValues: {
           ":orientation": orientation,
-          ":name": name
+          ":sk": sk
         },
         Limit: limit,
         ScanIndexForward: true
       };
-    } else if (!name) {
+    } else if (!sk) {
       params = {
         TableName: process.env.tableName,
         IndexName: "orientation-index",
@@ -99,15 +99,15 @@ export async function main(event, context) {
       params = {
         TableName: process.env.tableName,
         IndexName: "orientation-index",
-        KeyConditionExpression: "#orientation = :orientation and begins_with(#name, :name)",
+        KeyConditionExpression: "#orientation = :orientation and begins_with(#sk, :sk)",
         ExpressionAttributeNames: {
           '#orientation': 'orientation',
-          '#name': 'name',
+          '#sk': 'sk',
           '#email': 'email',
         },
         ExpressionAttributeValues: {
           ":orientation": orientation,
-          ':name': name,
+          ':sk': sk,
           ':email': email
         },
         FilterExpression: "begins_with(#email, :email)",
@@ -118,15 +118,15 @@ export async function main(event, context) {
       params = {
         TableName: process.env.tableName,
         IndexName: "orientation-index",
-        KeyConditionExpression: "#orientation = :orientation and begins_with(#name, :name)",
+        KeyConditionExpression: "#orientation = :orientation and begins_with(#sk, :sk)",
         ExpressionAttributeNames: {
           '#orientation': 'orientation',
-          '#name': 'name',
+          '#sk': 'sk',
           '#phone': 'phone'
         },
         ExpressionAttributeValues: {
           ":orientation": orientation,
-          ':name': name,
+          ':sk': sk,
           ':phone': phone
         },
         FilterExpression: "begins_with(#phone, :phone)",
@@ -137,16 +137,16 @@ export async function main(event, context) {
       params = {
         TableName: process.env.tableName,
         IndexName: "orientation-index",
-        KeyConditionExpression: "#orientation = :orientation and begins_with(#name, :name)",
+        KeyConditionExpression: "#orientation = :orientation and begins_with(#sk, :sk)",
         ExpressionAttributeNames: {
           '#orientation': 'orientation',
-          '#name': 'name',
+          '#sk': 'sk',
           '#phone': 'phone',
           '#email': 'email',
         },
         ExpressionAttributeValues: {
           ":orientation": orientation,
-          ':name': name,
+          ':sk': sk,
           ':phone': phone,
           ':email': email
         },

@@ -10,9 +10,10 @@ export async function main(event, context) {
         "orderConfirmed", "loadCompleted", "inTransit", "unloadComplete"];
 
     var params;
-    var successNum;
-    var cancelNum;
-    var progressNum;
+    var successNum = 0;
+    var cancelNum = 0;
+    var progressNum = 0;
+    var count = 0;
 
     try {
 
@@ -36,7 +37,7 @@ export async function main(event, context) {
             };
 
             var result = await dynamoDbLib.call("query", params);
-            var count = result.Count;
+            count = result.Count;
 
             while (result.LastEvaluatedKey) {
                 params.ExclusiveStartKey = result.LastEvaluatedKey;
@@ -51,8 +52,6 @@ export async function main(event, context) {
             } else {
                 progressNum += count;
             }
-
-            count = null;
         }
 
         return success({

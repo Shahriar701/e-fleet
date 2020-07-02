@@ -140,10 +140,28 @@
 
 //1591997654844 
 
-const moment = require("moment-timezone");
-const date = new Date();
-let today = moment(date).tz("Asia/Dhaka").format("YYYY-MM-DDThh:mm:ss");
-let thisWeek = moment(date).tz("Asia/Dhaka").add(-7, "days").format("YYYY-MM-DDThh:mm:ss");
-let lastMonth = moment(date).tz("Asia/Dhaka").add(-30, "days").format("YYYY-MM-DDThh:mm:ss");
+// const moment = require("moment-timezone");
+// const date = new Date();
+// let today = moment(date).tz("Asia/Dhaka").format("YYYY-MM-DDThh:mm:ss");
+// let thisWeek = moment(date).tz("Asia/Dhaka").add(-7, "days").format("YYYY-MM-DDThh:mm:ss");
+// let lastMonth = moment(date).tz("Asia/Dhaka").add(-30, "days").format("YYYY-MM-DDThh:mm:ss");
 
+// export function afterConfirmationTrigger(event, context, callback) {
+//     const params = {
+//       GroupName: "Owners",
+//       UserPoolId: event.userPoolId,
+//       Username: event.userName
+//     };
+  
+//     CognitoIdentityServiceProvider.adminAddUserToGroup(params)
+//       .promise()
+//       .then(res => callback(null, event))
+//       .catch(err => callback(err, event));
+//   }
+
+//   Allow cognito-idp:AdminAddUserToGroup
+
+https://stackoverflow.com/questions/61324176/aws-dynamodb-transact-write-using-in-operator-on-array?noredirect=1&lq=1
+career@enosisbd.com
+https://jobs.bdjobs.com/jobdetails.asp?id=909289&fcatId=8&ln=1
 
