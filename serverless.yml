@@ -6,10 +6,18 @@ package:
 plugins:
   - serverless-bundle
   - serverless-offline
+  - serverless-domain-manager
 
 custom:
   stage: ${opt:stage, self:provider.stage}
   tableName: ${self:custom.stage}-truckload
+
+  customDomain:
+    domainName: api.truckload.trukiot.com
+    basePath: 'v1'
+    stage: ${opt:stage, self:provider.stage}
+    certificateName: trukiot.com
+    createRoute53Record: true
 
 provider:
   name: aws
@@ -61,6 +69,27 @@ functions:
           method: post
           cors: true
           # authorizer: aws_iam
+  # function for updating customer
+  # update-customer:
+  #   handler: api/update-customer.main
+  #   description: UPDATE /customer
+  #   events:
+  #     - http:
+  #         path: customer
+  #         method: patch
+  #         cors: true
+  #         # authorizer: aws_iam
+
+  # function for deleting customer
+  # delete-customer:
+  #   handler: api/delete-customer.main
+  #   description: delete /customer
+  #   events:
+  #     - http:
+  #         path: customer
+  #         method: delete
+  #         cors: true
+  #         # authorizer: aws_iam
 
   # function for adding vendor
   add-vendor:
@@ -112,6 +141,26 @@ functions:
           method: post
           cors: true
 
+  #update customer employee
+  # update-customer-employee:
+  #   handler: api/update-customer-employee.main
+  #   description: UPDATE /c/employee
+  #   events:
+  #     - http:
+  #         path: /c/employee
+  #         method: patch
+  #         cors: true
+
+  #add customer employee
+  # delete-customer-employee:
+  #   handler: api/delete-customer-employee.main
+  #   description: DELETE /c/employee
+  #   events:
+  #     - http:
+  #         path: /c/employee
+  #         method: delete
+  #         cors: true
+
   #add vendor employee
   add-vendor-employee:
     handler: api/add-vendor-employee.main
@@ -121,6 +170,26 @@ functions:
           path: /v/employee
           method: post
           cors: true
+
+  #update vendor employee
+  # update-vendor-employee:
+  #   handler: api/update-vendor-employee.main
+  #   description: PATCH /v/employee
+  #   events:
+  #     - http:
+  #         path: /v/employee
+  #         method: patch
+  #         cors: true
+
+  #update vendor employee
+  # delete-vendor-employee:
+  #   handler: api/delete-vendor-employee.main
+  #   description: PATCH /v/employee
+  #   events:
+  #     - http:
+  #         path: /v/employee
+  #         method: delete
+  #         cors: true
 
   # function for all
   get-all:
