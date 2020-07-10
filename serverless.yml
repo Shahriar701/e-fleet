@@ -17,6 +17,7 @@ custom:
     basePath: 'v2'
     stage: ${opt:stage, self:provider.stage}
     certificateName: trukiot.com
+    endpointType: regional
     createRoute53Record: true
 
 provider:
