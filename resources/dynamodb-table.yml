@@ -10,8 +10,6 @@ Resources:
           AttributeType: S
         - AttributeName: orientation
           AttributeType: S
-        - AttributeName: name
-          AttributeType: S
         - AttributeName: status
           AttributeType: S
         - AttributeName: created_date
