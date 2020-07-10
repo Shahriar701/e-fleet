@@ -4,7 +4,7 @@
   "description": "truckload backend with the Serverless Framework with async/await and unit test support",
   "main": "handler.js",
   "scripts": {
-    "test": "serverless-bundle test",
+    "bundle:test": "serverless-bundle test",
     "deploy:dev": "serverless deploy --stage dev",
     "cred:dev": "serverless config credentials --stage dev --provider aws --key ${AWS_KEY} --secret ${AWS_SECRET}",
     "deploy:stage": "serverless deploy --stage staging",
