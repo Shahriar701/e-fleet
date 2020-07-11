@@ -1,4 +1,5 @@
-image: node:11.13.0-alpine
+# image: node:11.13.0-alpine
+image: node:12.16.1-alpine
 
 pipelines:
   branches:
