@@ -212,6 +212,16 @@ functions:
           cors: true
 
   # function for getting by status
+  get-truck-status:
+    handler: api/get-truck-status.main
+    description: GET /truck-status
+    events:
+      - http:
+          path: truck-status
+          method: get
+          cors: true
+
+  # function for getting by status
   get-object-info:
     handler: api/get-object-info.main
     description: GET /object
