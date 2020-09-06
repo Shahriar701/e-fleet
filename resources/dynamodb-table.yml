@@ -14,6 +14,8 @@ Resources:
           AttributeType: S
         - AttributeName: created_date
           AttributeType: S
+        - AttributeName: order_id
+          AttributeType: S
       KeySchema:
         - AttributeName: pk
           KeyType: HASH
@@ -42,6 +44,15 @@ Resources:
             - AttributeName: status
               KeyType: HASH
             - AttributeName: created_date
+              KeyType: RANGE
+          Projection:
+            ProjectionType: ALL
+
+        - IndexName: status-truck-index
+          KeySchema:
+            - AttributeName: status
+              KeyType: HASH
+            - AttributeName: order_id
               KeyType: RANGE
           Projection:
             ProjectionType: ALL
