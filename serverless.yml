@@ -12,6 +12,7 @@ custom:
   stage: ${opt:stage, self:provider.stage}
   tableName: ${self:custom.stage}-truckload
 
+  # domain for dev
   customDomain:
     domainName: api.truckload.trukiot.com
     basePath: 'v1'
