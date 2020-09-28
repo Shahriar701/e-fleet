@@ -13,7 +13,7 @@ export async function main(event, context) {
 
     let targets = [today, yesterday, thisWeek, lastMonth];
 
-    let seriesname = ["Individual", "SME", "Corporate"];
+    let seriesname = ["individual", "sme", "corporate"];
     let series = ["Individual", "SME", "Corporate"];
 
     var params;
@@ -56,10 +56,10 @@ export async function main(event, context) {
                     count += result.Count;
                 }
 
-                if (seriesname[e] === "Individual") {
+                if (seriesname[e] === "individual") {
                     individual.push({ value: count.toString() });
 
-                } else if (seriesname[e] === "SME") {
+                } else if (seriesname[e] === "sme") {
                     sme.push({ value: count.toString() });
 
                 } else {
