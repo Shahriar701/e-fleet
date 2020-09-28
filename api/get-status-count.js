@@ -34,7 +34,7 @@ export async function main(event, context) {
                     ExpressionAttributeNames: {
                         "#status": "status",
                         "#created_date": "created_date",
-                        "#type": "type"
+                        "#type": "customer_type"
                     },
                     ExpressionAttributeValues: {
                         ":status": "consignmentDone",
