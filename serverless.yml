@@ -14,7 +14,7 @@ custom:
 
   customDomain:
     domainName: api.truckload.trukiot.com
-    basePath: 'v2'
+    basePath: 'v1'
     stage: ${opt:stage, self:provider.stage}
     certificateName: trukiot.com
     createRoute53Record: true
