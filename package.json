@@ -12,7 +12,8 @@
     "deploy:test": "serverless deploy --stage test",
     "cred:test": "serverless config credentials --stage test --provider aws --key ${AWS_KEY} --secret ${AWS_SECRET}",
     "deploy:prod": "serverless deploy --stage prod",
-    "cred:prod": "serverless config credentials --stage prod --provider aws --key ${AWS_KEY} --secret ${AWS_SECRET}"
+    "cred:prod": "serverless config credentials --stage prod --provider aws --key ${AWS_KEY} --secret ${AWS_SECRET}",
+    "sls:dev": "serverless offline start"
   },
   "author": "S.M. Shahriar Rezwan",
   "license": "ERA",
